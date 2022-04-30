@@ -5,8 +5,8 @@
 class Graph:
 
     #build graph and number of nodes
-    def __init__(self, nodes):
-        self.nodes = nodes
+    def __init__(self, node):
+        self.nodes = node
         self.graph = []
     
     #connects nodes and adds edge properties
@@ -17,7 +17,7 @@ class Graph:
 
     
     def print_routing_table(self, distance):
-        print("Node  Distance")
+        print("Node\t\tDistance")
         for i in range(self.nodes):
             print("{0}\t\t{1}".format(i,distance[i]))
 
@@ -30,7 +30,14 @@ class Graph:
         #establishes reliability for all nodes in the graph using a score
         for _ in range(self.nodes - 1):
             for node1, node2, fail_chance, score in self.graph:
+                print(node1,distance[node1],distance[node2])
                 if distance[node1] != float("infinity") and distance[node1] + score < distance[node2]:
-                    distance[node2] = distance[1] + score
-        
+                    distance[node2] = distance[node1] + score
+
+        #indicates if score has gone negative
+        for node1, node2, fail_chance, score in self.graph:
+            if distance[node1] != float("infinity") and distance[node1] + score < distance[node2]:
+                print("negative score exists")
+                return
+
         self.print_routing_table(distance)

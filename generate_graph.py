@@ -16,13 +16,13 @@ def generate_graph():
     #tracker to ensure every node has an edge
     tracker= []
 
-    for node in range(1, num_nodes):
+    for node in range(0, num_nodes):
         tracker.append(node)
 
     while len(tracker) > 0:
         #picks two different edges
-        edge1 = randint(1,num_nodes - 2)
-        edge2 = randint(edge1 + 1, num_nodes)
+        edge1 = randint(0,num_nodes - 2)
+        edge2 = randint(edge1 + 1, num_nodes - 1)
         #generates unique chance to fail
         fail_chance = randint(0,10)
         
@@ -35,10 +35,8 @@ def generate_graph():
         #populates graph with fixed values
         graph.add_edge(edge1, edge2, fail_chance)
 
-    graph.bellman_ford(2)
     #removes redundant graph objects
     
 
-generate_graph()
-#def __init__():
-#    generate_graph()
+def __init__():
+    generate_graph()
