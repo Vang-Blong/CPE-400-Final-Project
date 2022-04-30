@@ -1,13 +1,17 @@
 #Programmed by Blong Vang and Clint Vega
 #CPE400 Final Project Spring 2022
-#Graph class
 
+#Graph class
 class Graph:
 
-    def __init__(self, edges):
-        self.edge = edges
+    #build graph and number of nodes
+    def __init__(self, nodes):
+        self.nodes = nodes
         self.graph = []
-
-    def add_edge(self, node1, node2, fail_chance, score):
+    
+    #connects nodes and adds edge properties
+    #fail chance = random value 1-100 of node to fail
+    #score = defaults to 50, will dynamically attempt to calculate fail chance over time
+    def add_edge(self, node1, node2, fail_chance, score=50):
         self.graph.append([node1,node2, fail_chance, score])
 
