@@ -4,6 +4,7 @@
 
 from random import random,randint  #for random graph on every instance
 
+#generates random nodes.csv and edges.csv graph data to simulate against
 def generate_files():
     #dictionary for mapping number to alphabet character
     num_map = {0:'A',1:'B',2:'C',3:'D',4:'E',5:'F',6:'G',7:'H',8:'I',9:'J',10:'K',11:'L',12:'M',13:'N',14:'O',15:'P',16:'Q',17:'R',18:'S',19:'T',20:'U',21:'V',22:'W',23:'X',24:'Y',25:'Z'}
@@ -22,7 +23,6 @@ def generate_files():
     #create/restart new .csv file for graph data
     initial1 = open("nodes.csv",'w')
     initial2 = open("edges.csv",'w')
-
     initial1.write("id,name\n")
     initial2.write("src,dst,fail_rate,score\n")
     initial1.close()
@@ -43,21 +43,26 @@ def generate_files():
         #generates unique chance to fail
         fail_chance = randint(0,10)
         
+
+        #populates graph with randomized edge values
+        if ((edge1 in tracker) or (edge1 in tracker2)) or ((edge2 in tracker) or (edge2 in tracker2)) :
+          input2.write(str(edge1) + "," + str(edge2) + "," + str(fail_chance) + "," + str(10) + '\n')
         #ensures every node gets an edge and is connected to whole graph
-        if edge1 in tracker:
-            tracker.remove(edge1)
-        if edge2 in tracker:
-            tracker.remove(edge2)
-        
         if edge1 not in tracker:
             if edge1 in tracker2:
                 tracker2.remove(edge1)
         if edge2 not in tracker:
             if edge2 in tracker2:
-                tracker2.remove(edge2)    
+                tracker2.remove(edge2)   
+        
+        if edge1 in tracker:
+            tracker.remove(edge1)
+        if edge2 in tracker:
+            tracker.remove(edge2)
+        
+ 
 
-        #populates graph with randomized edge values
-        input2.write(str(edge1) + "," + str(edge2) + "," + str(fail_chance) + "," + str(1) + '\n')
+        
 
 generate_files()
 #def __init__():
