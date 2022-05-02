@@ -30,7 +30,7 @@ for node in node_data:
 for edge in edge_data:
     src = int(edge[0].replace('\'',''))
     dst= int(edge[1].replace('\'',''))
-    G.add_edge(src,dst,fail_rate=edge[2],score=edge[3])
+    G.add_edge(src,dst,fail_rate=edge[2],state=edge[3],score=edge[4])
 
 #automatic metrics
 degree_centrality = nx.degree_centrality(G)
