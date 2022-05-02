@@ -11,25 +11,56 @@ def generate_files():
      # designates and generates graph with random # of nodes
     num_nodes = randint(5,25)
 
-    #tracker to ensure every node has an edge
+    #need 2 trackers to ensure every node has an edge
     tracker= []
+    tracker2 = []
 
     for node in range(0, num_nodes):
         tracker.append(node)
+        tracker2.append(node)
 
-    #exits when every node gets an edge
-    while len(tracker) > 0:
+    #create/restart new .csv file for graph data
+    initial1 = open("nodes.csv",'w')
+    initial2 = open("edges.csv",'w')
+
+    initial1.write("id,name\n")
+    initial2.write("src,dst,fail_rate,score\n")
+    initial1.close()
+    initial2.close()
+
+    #append data to graph files
+    input1 = open("nodes.csv",'a')
+    for num in range(num_nodes):
+            input1.write(str(num) + "," + num_map[num] + '\n')
+
+
+    input2 = open("edges.csv",'a')
+    #exits when every node gets an edge and connects graph
+    while len(tracker) > 0 and len(tracker2) > 0:
         #picks two different edges
         edge1 = randint(0,num_nodes - 2)
         edge2 = randint(edge1 + 1, num_nodes - 1)
         #generates unique chance to fail
         fail_chance = randint(0,10)
         
-        #ensures every node gets an edge
+        #ensures every node gets an edge and is connected to whole graph
         if edge1 in tracker:
             tracker.remove(edge1)
         if edge2 in tracker:
             tracker.remove(edge2)
+        
+        if edge1 not in tracker:
+            if edge1 in tracker2:
+                tracker2.remove(edge1)
+        if edge2 not in tracker:
+            if edge2 in tracker2:
+                tracker2.remove(edge2)    
 
-        #populates graph with fixed values
-        graph.add_edge(edge1, edge2, fail_chance)
+        #populates graph with randomized edge values
+        input2.write(str(edge1) + "," + str(edge2) + "," + str(fail_chance) + "," + str(1) + '\n')
+
+generate_files()
+#def __init__():
+#    generate_files()
+        
+        
