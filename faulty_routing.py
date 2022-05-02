@@ -1,5 +1,7 @@
 import networkx as nx
 import matplotlib.pyplot as plt
+import cv2
+import numpy
 
 #import filedata
 def get_data(filename):
@@ -37,4 +39,4 @@ betweenness_centrality = nx.betweenness_centrality(G)
 
 #visualize using matplotlib
 nx.draw_spring(G)
-plt.show()
+plt.show(block=True)
