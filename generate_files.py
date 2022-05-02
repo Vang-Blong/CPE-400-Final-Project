@@ -46,14 +46,12 @@ def generate_files():
             tracker2.append(edge2)
         
         
-        print(tracker, tracker2)
+        #print(tracker, tracker2)
         
  
 
         
-
-generate_files()
-#def __init__():
-#    generate_files()
+def __init__():
+    generate_files()
         
         
