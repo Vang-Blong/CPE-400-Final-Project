@@ -10,7 +10,7 @@ def get_data(filename):
         head = data[0]
         tail = data[1:]
 
-    return head, tail
+    return head, tail[:-1]
 
 #def __init__():
 #Generate nodes and edges
@@ -22,10 +22,13 @@ G = nx.Graph()
 
 #Populate graph object with filedata
 for node in node_data:
-    G.add_node(int(node[0]), name=node[1])
-
+    id = node[0].replace('\'','')
+    id = int(id)
+    G.add_node(id, name=node[1])
 for edge in edge_data:
-    G.add_edge(int(edge[0]),int(edge[1]),fail_rate=edge[2],score=edge[3])
+    src = int(edge[0].replace('\'',''))
+    dst= int(edge[1].replace('\'',''))
+    G.add_edge(src,dst,fail_rate=edge[2],score=edge[3])
 
 #automatic metrics
 degree_centrality = nx.degree_centrality(G)
