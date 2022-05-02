@@ -26,10 +26,12 @@ G = nx.Graph()
 for node in node_data:
     id = node[0].replace('\'','')
     id = int(id)
+    #print(node)
     G.add_node(id, name=node[1])
 for edge in edge_data:
     src = int(edge[0].replace('\'',''))
     dst= int(edge[1].replace('\'',''))
+    #print(edge)
     G.add_edge(src,dst,fail_rate=edge[2],state=edge[3],score=edge[4])
 
 #automatic metrics
