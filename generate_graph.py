@@ -4,7 +4,8 @@
 
 from sys import path
 path.append(".")
-from graph import Graph  #imports graph class
+#from graph import Graph  #imports graph class
+import networkx as nx
 from random import random,randint  #for random graph on every instance
 
 def generate_graph():
@@ -19,6 +20,7 @@ def generate_graph():
     for node in range(0, num_nodes):
         tracker.append(node)
 
+    #exits when every node gets an edge
     while len(tracker) > 0:
         #picks two different edges
         edge1 = randint(0,num_nodes - 2)
@@ -35,7 +37,7 @@ def generate_graph():
         #populates graph with fixed values
         graph.add_edge(edge1, edge2, fail_chance)
 
-    #removes redundant graph objects
+
     
 
 def __init__():
