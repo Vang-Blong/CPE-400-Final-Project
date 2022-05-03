@@ -1,8 +1,8 @@
 #Programmed by Blong Vang and Clint Vega
 #CPE400 Final Project Spring 2022
-#Generates random .csv file used for importing graph data
+#Generates random .csv files used for importing graph data
 
-from random import random,randint  #for random graph on every instance
+from random import randint  #for random graph on every instance
 
 #generates random nodes.csv and edges.csv graph data to simulate against
 def generate_files():
@@ -45,8 +45,8 @@ def generate_files():
             tracker.append(edge1)
             tracker2.append(edge2)
         
-        
-        #print(tracker, tracker2)
+    input1.close()
+    input2.close()
         
  
 
