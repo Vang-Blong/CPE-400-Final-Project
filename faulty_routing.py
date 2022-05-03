@@ -55,7 +55,7 @@ def fault_routing():
 
         #iterate on failure_rate the flag# of times
         fail_rate = nx.get_edge_attributes(G,"fail_rate")
-        original_paths = dict(nx.all_pairs_dijkstra(G))
+        current_paths = dict(nx.all_pairs_dijkstra(G))
 
         #Create a copy of the original graph for mutating later
         G_temp = G.copy()
