@@ -19,12 +19,7 @@ def get_data(filename):
         tail = data[1:]
     #returns header info and the remaining actual data as a tail
     return head, tail[:-1]
-
-def routing_algorithm():
-    routing_table = []
-
-    return routing_table
-
+    
 #run graph and visualize it
 def fault_routing():
     #Generate nodes and edges
@@ -39,7 +34,7 @@ def fault_routing():
         id = node[0].replace('\'','')
         id = int(id)
         #print(node)
-        G.add_node(id, name=node[1],state=node[2],up_count=node[3],down_count=node[4],score=node[5])
+        G.add_node(id, name=node[1],fail_rate=node[2], state=node[3],up_count=node[4],down_count=node[5],score=node[6])
     for edge in edge_data:
         src = int(edge[0].replace('\'',''))
         dst = int(edge[1].replace('\'',''))

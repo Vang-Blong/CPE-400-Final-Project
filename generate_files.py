@@ -15,7 +15,7 @@ def generate_files():
     #create/restart new .csv file for graph data
     initial1 = open("nodes.csv",'w')
     initial2 = open("edges.csv",'w')
-    initial1.write("id,name,state,up_count,down_count,score\n")
+    initial1.write("id,name,fail_rate,state,up_count,down_count,score\n")
     initial2.write("src,dst,fail_rate,state,up_count,down_count,score\n")
     initial1.close()
     initial2.close()
@@ -24,7 +24,8 @@ def generate_files():
     state = "UP"
     input1 = open("nodes.csv",'a')
     for num in range(num_nodes):
-        input1.write(str(num) + "," + num_map[num] + "," + state + "," + str(0) + "," + str(0) + "," + str(0) + '\n')
+        fail_chance = randint(0,100)
+        input1.write(str(num) + "," + num_map[num] + "," + str(fail_chance) + "," + state + "," + str(0) + "," + str(0) + "," + str(0) + '\n')
     input2 = open("edges.csv",'a')
 
     #exits when every node gets an edge and connects graph
