@@ -47,20 +47,28 @@ def fault_routing():
         print("To run simulation type '0' without quotes.")
         flag = input("To exit type '1': ")
 
-        for path, fail_rate in nx.get_edge_attributes(G,"fail_rate"):
-            #if edge attribute's fail_rate is above this fail_check value, set the edge_attribute status to "DOWN"
+        fail_rate = nx.get_edge_attributes(G,"fail_rate")
+        
+        for edge1, edge2 in fail_rate:
+            
             fail_check = randint(0,10)
-            print(path)
-            print(fail_rate)
 
-            #if int(fail_rate) > fail_check:
-            #    nx.set_edge_attributes(G,{edge_path:{'state':'UP'}})
+            #if edge attribute's fail_rate is above this fail_check value, set the edge_attribute status to "DOWN", otherwise set to "UP"
+            if int(fail_rate[(edge1,edge2)]) >= fail_check:
+                G[edge1][edge2]['state'] = 'DOWN'
+            
+            #current state monitored
+            current_state = nx.get_edge_attributes(G,'state')
+            print(current_state[(edge1,edge2)])
 
-            #elif int(fail_rate) <= fail_check:
-            #    nx.set_edge_attributes(G,{edge_path:{'state':'DOWN'}})
+            #only increments score if coming from a down state
+            if int(fail_rate[(edge1,edge2)]) < fail_check and current_state[(edge1,edge2)] == 'DOWN':
+                G[edge1][edge2]['state'] = 'UP'
 
-            #for edge_path2, state in nx.get_edge_attributes(G,'state'):
-                #print(state)
+
+        state = nx.get_edge_attributes(G,"state")
+        for edge1, edge2 in state:
+            print(edge1, edge2, state[(edge1,edge2)])
 
 
 
