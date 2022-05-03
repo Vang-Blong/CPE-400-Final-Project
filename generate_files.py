@@ -15,15 +15,16 @@ def generate_files():
     #create/restart new .csv file for graph data
     initial1 = open("nodes.csv",'w')
     initial2 = open("edges.csv",'w')
-    initial1.write("id,name\n")
+    initial1.write("id,name,state,up_count,down_count,score\n")
     initial2.write("src,dst,fail_rate,state,up_count,down_count,score\n")
     initial1.close()
     initial2.close()
 
     #append data to graph files
+    state = "UP"
     input1 = open("nodes.csv",'a')
     for num in range(num_nodes):
-        input1.write(str(num) + "," + num_map[num] + '\n')
+        input1.write(str(num) + "," + num_map[num] + "," + state + "," + str(0) + "," + str(0) + "," + str(0) + '\n')
     input2 = open("edges.csv",'a')
 
     #exits when every node gets an edge and connects graph
@@ -37,7 +38,6 @@ def generate_files():
         #generates unique chance to fail
         fail_chance = randint(0,100)
         #default state to UP
-        state = "UP"
         
         #ensures every node gets an edge and is connected to whole graph  
         #populates graph with randomized edge values

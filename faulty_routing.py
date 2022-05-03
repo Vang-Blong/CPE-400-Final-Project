@@ -20,6 +20,11 @@ def get_data(filename):
     #returns header info and the remaining actual data as a tail
     return head, tail[:-1]
 
+def routing_algorithm():
+    routing_table = []
+
+    return routing_table
+
 #run graph and visualize it
 def fault_routing():
     #Generate nodes and edges
@@ -34,7 +39,7 @@ def fault_routing():
         id = node[0].replace('\'','')
         id = int(id)
         #print(node)
-        G.add_node(id, name=node[1])
+        G.add_node(id, name=node[1],state=node[2],up_count=node[3],down_count=node[4],score=node[5])
     for edge in edge_data:
         src = int(edge[0].replace('\'',''))
         dst = int(edge[1].replace('\'',''))
@@ -42,18 +47,18 @@ def fault_routing():
         G.add_edge(src,dst,fail_rate=edge[2],state=edge[3],up_count=edge[4],down_count=edge[5],score=edge[6])
 
     #run simulation number of times designated by flag & counts iterations for calculating score
-    flag = 10000
+    flag = 5000
     counter = 1
     while flag > 0:
-        print("To run simulation type '0' without quotes.")
+        #print("To run simulation type '0' without quotes.")
         #flag = input("To exit type '1': ")
 
+        #iterate on failure_rate the flag# of times
         fail_rate = nx.get_edge_attributes(G,"fail_rate")
+        original_paths = dict(nx.all_pairs_dijkstra(G))
+        G_temp = G.copy()
 
-        #counter to count number of iterations for dividing out for mean
-        
         for edge1, edge2 in fail_rate:
-            
             fail_check = randint(0,100)
             
             #if edge attribute's fail_rate is above this fail_check value, set the edge_attribute status to "DOWN", otherwise set to "UP", then decrements the score value by 1
@@ -62,9 +67,6 @@ def fault_routing():
                 down_count = G[edge1][edge2]['down_count']
                 down_count = int(down_count) + 1
                 G[edge1][edge2]['down_count'] = down_count
-            
-            #current state monitored
-            #current_state = nx.get_edge_attributes(G,'state')
 
             #increments score and sets state to up
             if int(fail_rate[(edge1,edge2)]) < fail_check:
@@ -75,19 +77,21 @@ def fault_routing():
             
             current_up = nx.get_edge_attributes(G,'up_count')
             current_score = int(current_up[(edge1,edge2)]) / counter
-            print(100 - current_score * 100)
+            #print(100 - current_score * 100)
             G[edge1][edge2]['score'] = current_score
-            #increment counter each iteration
+
+            #current state monitored
+            current_state = nx.get_edge_attributes(G,'state')
+            #creates new Graph object so edges can be removed without affecting original
             
-            
-        state = nx.get_edge_attributes(G,"state")
-        
+            if current_state[(edge1,edge2)] == 'DOWN':
+                G_temp.remove_edge(edge1,edge2)
+                current_paths = dict(nx.all_pairs_dijkstra(G_temp))
+                for n, (dist,path) in nx.all_pairs_dijkstra(G_temp):
+                    print(path)
+
         flag -= 1
         counter += 1
-        
-        #for edge1, edge2 in state:
-            #print(edge1, edge2, state[(edge1,edge2)])
-
 
 
 fault_routing()

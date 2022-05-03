@@ -1,8 +1,6 @@
-id,name
-0,A
-1,B
-2,C
-3,D
-4,E
-5,F
-6,G
+id,name,state,up_count,down_count,score
+0,A,UP,0,0,0
+1,B,UP,0,0,0
+2,C,UP,0,0,0
+3,D,UP,0,0,0
+4,E,UP,0,0,0
