@@ -83,8 +83,6 @@ def fault_routing():
 
             #current state monitored
             current_state = nx.get_edge_attributes(G,'state')
-            #creates new Graph object so edges can be removed without affecting original
-            
             #if something goes down, recalculate dijkstras
             if current_state[(edge1,edge2)] == 'DOWN':
                 G_temp.remove_edge(edge1,edge2)
