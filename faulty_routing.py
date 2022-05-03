@@ -56,8 +56,9 @@ def fault_routing():
         #iterate on failure_rate the flag# of times
         fail_rate = nx.get_edge_attributes(G,"fail_rate")
         original_paths = dict(nx.all_pairs_dijkstra(G))
-        G_temp = G.copy()
 
+        #Create a copy of the original graph for mutating later
+        G_temp = G.copy()
         for edge1, edge2 in fail_rate:
             fail_check = randint(0,100)
             
@@ -84,6 +85,7 @@ def fault_routing():
             current_state = nx.get_edge_attributes(G,'state')
             #creates new Graph object so edges can be removed without affecting original
             
+            #if something goes down, recalculate dijkstras
             if current_state[(edge1,edge2)] == 'DOWN':
                 G_temp.remove_edge(edge1,edge2)
                 current_paths = dict(nx.all_pairs_dijkstra(G_temp))
