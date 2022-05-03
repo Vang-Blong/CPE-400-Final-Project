@@ -2,7 +2,7 @@
 #CPE400 Final Project Spring 2022
 #Imports graph data and visualizes it using matplotlib
 
-import generate_files #for simulating a new graph in each instance
+#import generate_files #for simulating a new graph in each instance
 import networkx as nx  #for graph data structur and network analysis features
 import matplotlib.pyplot as plt #for visualization
 import cv2 #matplotlib dependency
@@ -39,46 +39,52 @@ def fault_routing():
         src = int(edge[0].replace('\'',''))
         dst = int(edge[1].replace('\'',''))
         #print(edge)
-        G.add_edge(src,dst,fail_rate=edge[2],state=edge[3],score=edge[4])
+        G.add_edge(src,dst,fail_rate=edge[2],state=edge[3],up_count=edge[4],down_count=edge[5],score=edge[6])
 
-    #run simulation infinitely until user exits
-    flag = '0'
-    while flag == '0':
+    #run simulation number of times designated by flag & counts iterations for calculating score
+    flag = 10000
+    counter = 1
+    while flag > 0:
         print("To run simulation type '0' without quotes.")
         #flag = input("To exit type '1': ")
 
         fail_rate = nx.get_edge_attributes(G,"fail_rate")
+
+        #counter to count number of iterations for dividing out for mean
         
         for edge1, edge2 in fail_rate:
             
-            fail_check = randint(1,100)
-
+            fail_check = randint(0,100)
+            
             #if edge attribute's fail_rate is above this fail_check value, set the edge_attribute status to "DOWN", otherwise set to "UP", then decrements the score value by 1
             if int(fail_rate[(edge1,edge2)]) >= fail_check:
                 G[edge1][edge2]['state'] = 'DOWN'
-                score = G[edge1][edge2]['score']
-                #score cannot go below 0
-                if int(score) > 0:
-                    score = int(score) - 1
-                G[edge1][edge2]['score'] = score
+                down_count = G[edge1][edge2]['down_count']
+                down_count = int(down_count) + 1
+                G[edge1][edge2]['down_count'] = down_count
             
             #current state monitored
-            current_state = nx.get_edge_attributes(G,'state')
+            #current_state = nx.get_edge_attributes(G,'state')
 
             #increments score and sets state to up
             if int(fail_rate[(edge1,edge2)]) < fail_check:
                 G[edge1][edge2]['state'] = 'UP'
-                score = G[edge1][edge2]['score']
-                #score cannot go above 100
-                if int(score) < 100:
-                    score = int(score) + 1
-                G[edge1][edge2]['score'] = score
+                up_count = G[edge1][edge2]['up_count']
+                up_count = int(up_count) + 1
+                G[edge1][edge2]['up_count'] = up_count
             
-            current_score = nx.get_edge_attributes(G,'score')
-            print(current_score[(edge1,edge2)])
-
-
+            current_up = nx.get_edge_attributes(G,'up_count')
+            current_score = int(current_up[(edge1,edge2)]) / counter
+            print(100 - current_score * 100)
+            G[edge1][edge2]['score'] = current_score
+            #increment counter each iteration
+            
+            
         state = nx.get_edge_attributes(G,"state")
+        
+        flag -= 1
+        counter += 1
+        
         #for edge1, edge2 in state:
             #print(edge1, edge2, state[(edge1,edge2)])
 

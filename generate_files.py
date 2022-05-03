@@ -16,7 +16,7 @@ def generate_files():
     initial1 = open("nodes.csv",'w')
     initial2 = open("edges.csv",'w')
     initial1.write("id,name\n")
-    initial2.write("src,dst,fail_rate,state,score\n")
+    initial2.write("src,dst,fail_rate,state,up_count,down_count,score\n")
     initial1.close()
     initial2.close()
 
@@ -36,12 +36,13 @@ def generate_files():
         edge2 = randint(edge1 + 1, num_nodes - 1)
         #generates unique chance to fail
         fail_chance = randint(0,100)
+        #default state to UP
         state = "UP"
         
         #ensures every node gets an edge and is connected to whole graph  
         #populates graph with randomized edge values
         if edge1 not in tracker or edge2 not in tracker2:
-            input2.write(str(edge1) + "," + str(edge2) + "," + str(fail_chance) + "," + state + "," + str(100) + '\n')
+            input2.write(str(edge1) + "," + str(edge2) + "," + str(fail_chance) + "," + state + "," + str(0) + "," + str(0) + "," + str(0) + '\n')
             tracker.append(edge1)
             tracker2.append(edge2)
         
