@@ -45,30 +45,42 @@ def fault_routing():
     flag = '0'
     while flag == '0':
         print("To run simulation type '0' without quotes.")
-        flag = input("To exit type '1': ")
+        #flag = input("To exit type '1': ")
 
         fail_rate = nx.get_edge_attributes(G,"fail_rate")
         
         for edge1, edge2 in fail_rate:
             
-            fail_check = randint(0,10)
+            fail_check = randint(1,100)
 
-            #if edge attribute's fail_rate is above this fail_check value, set the edge_attribute status to "DOWN", otherwise set to "UP"
+            #if edge attribute's fail_rate is above this fail_check value, set the edge_attribute status to "DOWN", otherwise set to "UP", then decrements the score value by 1
             if int(fail_rate[(edge1,edge2)]) >= fail_check:
                 G[edge1][edge2]['state'] = 'DOWN'
+                score = G[edge1][edge2]['score']
+                #score cannot go below 0
+                if int(score) > 0:
+                    score = int(score) - 1
+                G[edge1][edge2]['score'] = score
             
             #current state monitored
             current_state = nx.get_edge_attributes(G,'state')
-            print(current_state[(edge1,edge2)])
 
-            #only increments score if coming from a down state
-            if int(fail_rate[(edge1,edge2)]) < fail_check and current_state[(edge1,edge2)] == 'DOWN':
+            #increments score and sets state to up
+            if int(fail_rate[(edge1,edge2)]) < fail_check:
                 G[edge1][edge2]['state'] = 'UP'
+                score = G[edge1][edge2]['score']
+                #score cannot go above 100
+                if int(score) < 100:
+                    score = int(score) + 1
+                G[edge1][edge2]['score'] = score
+            
+            current_score = nx.get_edge_attributes(G,'score')
+            print(current_score[(edge1,edge2)])
 
 
         state = nx.get_edge_attributes(G,"state")
-        for edge1, edge2 in state:
-            print(edge1, edge2, state[(edge1,edge2)])
+        #for edge1, edge2 in state:
+            #print(edge1, edge2, state[(edge1,edge2)])
 
 
 

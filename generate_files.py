@@ -35,13 +35,13 @@ def generate_files():
         edge1 = randint(0,num_nodes - 2)
         edge2 = randint(edge1 + 1, num_nodes - 1)
         #generates unique chance to fail
-        fail_chance = randint(0,10)
+        fail_chance = randint(0,100)
         state = "UP"
         
         #ensures every node gets an edge and is connected to whole graph  
         #populates graph with randomized edge values
         if edge1 not in tracker or edge2 not in tracker2:
-            input2.write(str(edge1) + "," + str(edge2) + "," + str(fail_chance) + "," + state + "," + str(10) + '\n')
+            input2.write(str(edge1) + "," + str(edge2) + "," + str(fail_chance) + "," + state + "," + str(100) + '\n')
             tracker.append(edge1)
             tracker2.append(edge2)
         
@@ -50,8 +50,6 @@ def generate_files():
         
  
 
-        
-def __init__():
-    generate_files()
+generate_files()
         
         
