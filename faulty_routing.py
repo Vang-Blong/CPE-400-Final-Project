@@ -19,7 +19,7 @@ def get_data(filename):
         tail = data[1:]
     #returns header info and the remaining actual data as a tail
     return head, tail[:-1]
-    
+
 #run graph and visualize it
 def fault_routing():
     #Generate nodes and edges
@@ -71,8 +71,10 @@ def fault_routing():
                 up_count = int(up_count) + 1
                 G[edge1][edge2]['up_count'] = up_count
             
+            #get score by dividing number of successes by instances ran
             current_up = nx.get_edge_attributes(G,'up_count')
             current_score = int(current_up[(edge1,edge2)]) / counter
+            
             #print(100 - current_score * 100)
             G[edge1][edge2]['score'] = current_score
 
