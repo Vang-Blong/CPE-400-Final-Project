@@ -90,6 +90,24 @@ def fault_routing():
         flag -= 1
         counter += 1
 
+    #Visualizing graph based on score
+
+    #Appending scores to list for colorbar
+    finalScoreList = []
+    for edge1, edge2, data in G.edges(data=True):
+        finalScoreList.append(100 - data['score'] * 100)
+    
+    #Graph visualization
+    edges,score = zip(*nx.get_edge_attributes(G,'score').items())
+    pos = nx.spring_layout(G)
+    nx.draw(G, pos, node_color= score, edgelist=edges, edge_color=score, width=4.0, edge_cmap=plt.cm.jet)
+    nx.draw_networkx_labels(G, pos, font_color='white', font_weight = 'bold')
+
+    #Colorbar 
+    legend = plt.cm.ScalarMappable(cmap=plt.cm.jet)
+    legend.set_array(finalScoreList)
+    plt.colorbar(legend, shrink = 0.5, label = 'Score')
+    plt.show()
 
 fault_routing()
 #def __init__():
