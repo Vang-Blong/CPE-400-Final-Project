@@ -42,15 +42,21 @@ def fault_routing():
         G.add_edge(src,dst,fail_rate=edge[2],state=edge[3],up_count=edge[4],down_count=edge[5],score=edge[6])
 
     #run simulation number of times designated by flag & counts iterations for calculating score
-    flag = 5000
+    print("Input number of simulations to run desired. ")
+    print("To simulate rerouting paths with randomized failures on a single instance, input '1'")
+    print("To return an accurate display of overall network connectivity, an integer >10000 is recommended.")
+    flag = input("Otherwise, type '0' to exit: ")
+    #if flag is 0, exit
+    if flag == 0:
+        return 0
+
     counter = 1
-    while flag > 0:
-        #print("To run simulation type '0' without quotes.")
-        #flag = input("To exit type '1': ")
+    G_temp = G.copy()
+
+    while int(flag) > 0:
 
         #iterate on failure_rate the flag# of times
         fail_rate = nx.get_edge_attributes(G,"fail_rate")
-        current_paths = dict(nx.all_pairs_dijkstra(G))
 
         #Create a copy of the original graph for mutating later
         G_temp = G.copy()
@@ -73,41 +79,68 @@ def fault_routing():
             
             #get score by dividing number of successes by instances ran
             current_up = nx.get_edge_attributes(G,'up_count')
-            current_score = int(current_up[(edge1,edge2)]) / counter
+            current_score = 100 - int(current_up[(edge1,edge2)]) / counter * 100
             
             #print(100 - current_score * 100)
             G[edge1][edge2]['score'] = current_score
 
             #current state monitored
             current_state = nx.get_edge_attributes(G,'state')
-            #if something goes down, recalculate dijkstras
+            #if something goes down, remove the edge from the Graph copy
             if current_state[(edge1,edge2)] == 'DOWN':
-                G_temp.remove_edge(edge1,edge2)
-                current_paths = dict(nx.all_pairs_dijkstra(G_temp))
-                for n, (dist,path) in nx.all_pairs_dijkstra(G_temp):
-                    print(path)
+                if G_temp.has_edge(edge1,edge2):
+                    G_temp.remove_edge(edge1,edge2)
+                
 
-        flag -= 1
+        flag = int(flag) - 1
         counter += 1
 
-    #Visualizing graph based on score
-
-    #Appending scores to list for colorbar
+    
+    #Put scores in list for printing to screen and Graph analysis
+    originalScoreList = []
+    for edge1, edge2, data in G.edges(data=True):
+        originalScoreList.append(int(data['fail_rate']))
     finalScoreList = []
     for edge1, edge2, data in G.edges(data=True):
-        finalScoreList.append(100 - data['score'] * 100)
-    
-    #Graph visualization
+        finalScoreList.append(int(data['score']))
+
+    #determines shortest paths table using dijkstras algorithm & length using the Graph copy
+    paths = dict(nx.all_pairs_dijkstra_path(G_temp))
+    lengths = dict(nx.all_pairs_dijkstra_path_length(G_temp))
+
+    #prints routing table with shortest routes and length
+    print("Routing Table")
+    print("Source : { Dst: [Route], ... }")
+    count = 0
+    for key in paths:
+        print(str(count) + " : " + str(paths[key]))
+        count += 1
+    count = 0
+    print("Source : { Dst: Length, ... }")
+    for key in lengths:
+        print(str(count) + " : " + str(lengths[key]))
+        count += 1
+        
+    count = 0
+    print("Path : Actual Fail Rate : Reverse Calculated Fail Score")
+    for edge in G.edges():
+        print(str(edge) + " : "  + str(originalScoreList[count]) + " : "  + str(finalScoreList[count]))
+        count += 1
+
+    #Visualizing graph based on score
     edges,score = zip(*nx.get_edge_attributes(G,'score').items())
     pos = nx.spring_layout(G)
     nx.draw(G, pos, node_color= score, edgelist=edges, edge_color=score, width=4.0, edge_cmap=plt.cm.jet)
     nx.draw_networkx_labels(G, pos, font_color='white', font_weight = 'bold')
 
+
     #Colorbar 
     legend = plt.cm.ScalarMappable(cmap=plt.cm.jet)
     legend.set_array(finalScoreList)
-    plt.colorbar(legend, shrink = 0.5, label = 'Score')
+    plt.colorbar(legend, shrink = 0.5, label = 'Fail Rate Score')
     plt.show()
 
+    
+
 fault_routing()
-#def __init__():
+#def __main__():
