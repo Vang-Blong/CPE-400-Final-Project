@@ -47,7 +47,7 @@ def fault_routing():
     print("To return an accurate display of overall network connectivity, an integer >10000 is recommended.")
     flag = input("Otherwise, type '0' to exit: ")
     #if flag is 0, exit
-    if flag == 0:
+    if flag == str(0):
         return 0
 
     counter = 1
@@ -140,7 +140,12 @@ def fault_routing():
     plt.colorbar(legend, shrink = 0.5, label = 'Fail Rate Score')
     plt.show()
 
-    
+    return 1
 
-fault_routing()
+
+#run program indefinitely until user exits
+exit_condition = 1
+while exit_condition == 1:
+    exit_condition = fault_routing()
+
 #def __main__():
