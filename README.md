@@ -3,7 +3,7 @@ Dynamic Fault Routing
 Names: Blong Vang, Clint Vega
 
 # Usage: 
-To run the faulty_routing simulation, from the command line, use:
+To run the program simulation, from the command line, use:
 > python3 faulty_routing.py
 
 then enter the number of simulations to run desired. A number greater than 5000 is recommended for an accurate analysis to be performed. Otherwise, enter the number '1' to simulate a single instance with randomized failure.
