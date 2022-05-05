@@ -81,7 +81,7 @@ def fault_routing():
             current_up = nx.get_edge_attributes(G,'up_count')
             current_score = 100 - int(current_up[(edge1,edge2)]) / counter * 100
             
-            #print(100 - current_score * 100)
+            #overwrite the score value associated to an edge with the new score
             G[edge1][edge2]['score'] = current_score
 
             #current state monitored
