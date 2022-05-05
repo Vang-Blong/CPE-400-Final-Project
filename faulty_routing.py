@@ -109,7 +109,7 @@ def fault_routing():
     lengths = dict(nx.all_pairs_dijkstra_path_length(G_temp))
 
     #prints routing table with shortest routes and length
-    print("Routing Table")
+    print("Routing Tables")
     print("Source : { Dst: [Route], ... }")
     count = 0
     for key in paths:
