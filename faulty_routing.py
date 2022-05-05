@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt #for visualization
 import cv2 #matplotlib dependency
 import numpy #additional analysis
 from random import randint # for random number generation
+import time #to calculate runtime
 
 #import filedata
 def get_data(filename):
@@ -46,12 +47,16 @@ def fault_routing():
     print("To simulate rerouting paths with randomized failures on a single instance, input '1'")
     print("To return an accurate display of overall network connectivity, an integer >10000 is recommended.")
     flag = input("Otherwise, type '0' to exit: ")
+    totalSimulations = flag #saving user input for output
     #if flag is 0, exit
     if flag == str(0):
         return 0
 
     counter = 1
     G_temp = G.copy()
+    
+    #Saving start time to calculate runtime
+    startTime = time.time()
 
     while int(flag) > 0:
 
@@ -95,6 +100,8 @@ def fault_routing():
         flag = int(flag) - 1
         counter += 1
 
+    #Calculating time spent running through simulations 
+    simulationTime = round((time.time() - startTime), 2) 
     
     #Put scores in list for printing to screen and Graph analysis
     originalScoreList = []
@@ -109,7 +116,7 @@ def fault_routing():
     lengths = dict(nx.all_pairs_dijkstra_path_length(G_temp))
 
     #prints routing table with shortest routes and length
-    print("Routing Tables")
+    print("\nRouting Table")
     print("Source : { Dst: [Route], ... }")
     count = 0
     for key in paths:
@@ -127,12 +134,20 @@ def fault_routing():
         print(str(edge) + " : "  + str(originalScoreList[count]) + " : "  + str(finalScoreList[count]))
         count += 1
 
+    #Prints number of simulations and runtime
+    print("\nNumber of Simulations: ", totalSimulations)
+    print("Total simulation time: ", simulationTime, ' seconds\n')
+    
+
+
     #Visualizing graph based on score
     edges,score = zip(*nx.get_edge_attributes(G,'score').items())
     pos = nx.spring_layout(G)
+
     plt.title('Visualized Network With Edges Colored By Fail Rate Score')
     nx.draw(G, pos, node_color= score, edgelist=edges, edge_color=score, width=4.0, edge_cmap=plt.cm.jet)
     nx.draw_networkx_labels(G, pos, font_color='white', font_weight = 'bold')
+
 
 
     #Adding colorbar as legend
