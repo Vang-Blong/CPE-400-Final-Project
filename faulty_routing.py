@@ -120,7 +120,7 @@ def fault_routing():
     for key in lengths:
         print(str(count) + " : " + str(lengths[key]))
         count += 1
-        
+    #prints actual fail rate compared to the reverse calculated fail score
     count = 0
     print("Path : Actual Fail Rate : Reverse Calculated Fail Score")
     for edge in G.edges():
