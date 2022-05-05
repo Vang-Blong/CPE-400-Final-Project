@@ -86,7 +86,7 @@ def fault_routing():
             current_up = nx.get_edge_attributes(G,'up_count')
             current_score = 100 - int(current_up[(edge1,edge2)]) / counter * 100
             
-            #print(100 - current_score * 100)
+            #overwrite the score value associated to an edge with the new score
             G[edge1][edge2]['score'] = current_score
 
             #current state monitored
@@ -143,12 +143,14 @@ def fault_routing():
     #Visualizing graph based on score
     edges,score = zip(*nx.get_edge_attributes(G,'score').items())
     pos = nx.spring_layout(G)
-    plt.title('Visualized Network With Edges Colored By Score')
+
+    plt.title('Visualized Network With Edges Colored By Fail Rate Score')
     nx.draw(G, pos, node_color= score, edgelist=edges, edge_color=score, width=4.0, edge_cmap=plt.cm.jet)
     nx.draw_networkx_labels(G, pos, font_color='white', font_weight = 'bold')
 
 
-    #Adding Colorbar as a legend
+
+    #Adding colorbar as legend
     legend = plt.cm.ScalarMappable(cmap=plt.cm.jet)
     legend.set_array(finalScoreList)
     plt.colorbar(legend, shrink = 0.5, label = 'Fail Rate Score')
