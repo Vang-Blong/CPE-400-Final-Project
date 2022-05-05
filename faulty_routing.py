@@ -130,11 +130,12 @@ def fault_routing():
     #Visualizing graph based on score
     edges,score = zip(*nx.get_edge_attributes(G,'score').items())
     pos = nx.spring_layout(G)
+    plt.title('Visualized Network With Edges Colored By Fail Rate Score')
     nx.draw(G, pos, node_color= score, edgelist=edges, edge_color=score, width=4.0, edge_cmap=plt.cm.jet)
     nx.draw_networkx_labels(G, pos, font_color='white', font_weight = 'bold')
 
 
-    #Colorbar 
+    #Adding colorbar as legend
     legend = plt.cm.ScalarMappable(cmap=plt.cm.jet)
     legend.set_array(finalScoreList)
     plt.colorbar(legend, shrink = 0.5, label = 'Fail Rate Score')
