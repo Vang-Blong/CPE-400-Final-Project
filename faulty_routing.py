@@ -136,7 +136,7 @@ def fault_routing():
 
     #Prints number of simulations and runtime
     print("\nNumber of Simulations: ", totalSimulations)
-    print("Total simulation time: ", simulationTime, ' seconds\n')
+    print("Total Simulation Time: ", simulationTime, ' seconds\n')
     
 
 
