@@ -13,9 +13,13 @@ Generate a new Graph file to test a new set of nodes and edges and fail rates ag
 
 # Dependencies:
 > sudo apt install -y libgl1
+
 > pip3 install networkx 
+
 > pip3 install matplotlib
+
 > pip3 install numpy
+
 > pip3 install opencv-python
 
 
